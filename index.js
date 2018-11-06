@@ -9,4 +9,5 @@ app.get("/", (req, res) => {
 });
 
 require("./routes/authentication.js")(app);
-app.listen(3000);
+const PORT = PROCESS.env.port || 5000;
+app.listen(PORT);
