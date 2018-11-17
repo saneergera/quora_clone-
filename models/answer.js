@@ -5,6 +5,7 @@ const commentSchema = require("./comment");
 const userSchema = Schema({
   Question: String,
   By: String,
+  Intro: String,
   Answer: String,
   Upvotes: Number,
   Downvotes: Number,

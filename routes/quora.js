@@ -94,11 +94,12 @@ module.exports = app => {
     res.redirect("/");
   });
   app.post("/api/answer", async (req, res) => {
-    const questionid = req.body.questionid;
+    const questionid = req.body.params.id;
     const answer = await new Answers({
       Question: questionid,
       By: req.user._id,
-      Answer: req.body.answer,
+      Intro: req.user.Intro,
+      Answer: req.body.params.ans,
       Upvotes: 0,
       Downvotes: 0
     }).save();
@@ -164,13 +165,18 @@ module.exports = app => {
 
   app.post("/api/singlequestion", async (req, res) => {
     var book = new Object();
-    console.log(req.body);
+
     const question = await Questions.find({ _id: req.body.params.id });
+    console.log("/////////////////////////");
     console.log(question);
     var final = [];
-    var answers = question.Answer;
-    book.question = question;
+    var answers = question[0].Answer;
 
+    console.log(answers);
+    book.question = question;
+    if (answers.length === 0) {
+      res.send(book);
+    }
     for (const item2 of answers) {
       var ans = await Answers.find({ _id: item2 });
       console.log("=------------");

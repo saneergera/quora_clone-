@@ -2,11 +2,30 @@ import axios from "axios";
 var alt = require("../alt");
 
 class TopicActions {
+  answerQuestion(id, ans) {
+    return dispatch => {
+      axios
+        .post("/api/answer", {
+          params: {
+            id: id,
+            ans: ans
+          }
+        })
+        .then(response => {
+          dispatch(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+  }
+
   updateLocations(locations) {
     return locations;
   }
 
   fetchQuestion(id) {
+    console.log(id);
     return dispatch => {
       axios
         .post("/api/singlequestion", {
@@ -15,6 +34,9 @@ class TopicActions {
           }
         })
         .then(response => {
+          console.log("hello");
+
+          console.log(response.data);
           dispatch(response.data);
         })
         .catch(error => {

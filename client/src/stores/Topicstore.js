@@ -3,13 +3,20 @@ import TopicActions from "../actions/TopicActions";
 
 class TopicStore {
   constructor() {
-    this.state = { data: null, loader: false, feed: null };
+    this.state = {
+      data: null,
+      loader: false,
+      feed: null,
+      singlefeed: null,
+      answerUpdated: false
+    };
 
     this.bindListeners({
       handleUpdateLocations: TopicActions.UPDATE_LOCATIONS,
       handleAskQuestion: TopicActions.ASK_QUESTION,
       fetchFeed: TopicActions.FETCH_FEED,
-      fetchSingleFeed: TopicActions.FETCH_QUESTION
+      fetchSingleFeed: TopicActions.FETCH_QUESTION,
+      answerQuestion: TopicActions.ANSWER_QUESTION
     });
   }
 
@@ -25,7 +32,10 @@ class TopicStore {
     this.state.feed = data;
   }
   fetchSingleFeed(data) {
-    this.state.data = data;
+    this.state.singlefeed = data;
+  }
+  answerQuestion() {
+    this.state.answerUpdated = true;
   }
 }
 

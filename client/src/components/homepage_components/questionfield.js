@@ -102,12 +102,10 @@ class Questionfield extends React.Component {
     this.ele = document.querySelector("#upvoter");
     console.log(this.ele);
     const ele4 = document.querySelector("#questionlink");
-    ele4.href = `question/${this.props.data.question._id}`;
+    console.log("kyon");
   }
 
   render() {
-    ////////////////////////////////////////////////////////////////////////////////////////
-    console.log(this.by);
     ////////////////////////////////////////////////////////////////////////////////////////
 
     return (
@@ -118,7 +116,7 @@ class Questionfield extends React.Component {
             <div class="card-content white-text">
               <span class="card-title" style={{ color: "black" }}>
                 <a
-                  href=""
+                  href={`question/${this.props.data.question._id}`}
                   style={{
                     textDecoration: "none",
                     color: "black",
@@ -156,7 +154,7 @@ class Questionfield extends React.Component {
               <ReactQuill
                 readOnly="true"
                 value={this.answer}
-                style={{ display: this.style, height: "500px" }}
+                style={{ display: this.style, height: "300px" }}
               />
               {this.state.d}
             </div>
