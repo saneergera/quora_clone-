@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const notificationSchema = require("./notifications");
 
 const userSchema = Schema({
   facebook_id: String,
   google_id: String,
+  Name: String,
   email: String,
   NewUser: Boolean,
   Topics: [String],
@@ -13,8 +15,7 @@ const userSchema = Schema({
   Question: [Number],
   Followers: [Number],
   Following: [Number],
-  Topics: [Number],
-  Notifications: [String]
+  Notifications: [notificationSchema]
 });
 
 mongoose.model("Users", userSchema);

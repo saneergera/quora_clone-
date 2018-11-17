@@ -1,0 +1,18 @@
+.dropdown-content {
+  background-color: white !important;
+
+  display: block !important;
+  height: 500px;
+  opacity: 1;
+  position: relative !important;
+  left: 500px !important;
+  top: 63px !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+span.badge.new:after {
+  content: " " !important;
+}

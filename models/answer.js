@@ -8,7 +8,8 @@ const userSchema = Schema({
   Answer: String,
   Upvotes: Number,
   Downvotes: Number,
-  Comments: [commentSchema]
+  Comments: [commentSchema],
+  UpvoteBy: [String]
 });
 
 mongoose.model("Answers", userSchema);

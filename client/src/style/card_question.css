@@ -1,0 +1,10 @@
+.nothidden {
+  display: block;
+}
+.plus {
+  font-size: 30px;
+  color: red;
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+}

@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const userSchema = Schema({
   Name: String,
-  Question: [Number],
-  Followers: [Number]
+  Question: [String],
+  Followers: [String]
 });
 
 mongoose.model("Topics", userSchema);

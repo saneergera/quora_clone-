@@ -3,7 +3,8 @@ const { Schema } = mongoose;
 
 const userSchema = Schema({
   Body: String,
-  By: String
+  Link: String,
+  Read: Boolean
 });
 
 module.exports = userSchema;

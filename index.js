@@ -29,6 +29,7 @@ mongoose.connect(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 require("./routes/authentication.js")(app);
 require("./routes/quora.js")(app);
 
