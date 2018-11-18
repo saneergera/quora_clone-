@@ -26,7 +26,7 @@ module.exports = app => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
-      res.redirect("http://localhost:3006/");
+      res.redirect("/");
     }
   );
   app.get(
@@ -44,7 +44,7 @@ module.exports = app => {
       // Successful authentication, redirect home.
       console.log(req);
       if (req.user) {
-        res.redirect("http://localhost:3006/");
+        res.redirect("/");
       } else {
         res.redirect("/old");
       }

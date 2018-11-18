@@ -22,7 +22,7 @@ module.exports = () => {
       {
         clientID: "346588629234943",
         clientSecret: "76be48b651064f5062bf840442d93081",
-        callbackURL: "http://localhost:3000/auth/facebook/callback",
+        callbackURL: "/auth/facebook/callback",
         profileFields: ["id", "displayName", "photos", "email"]
       },
       async (accessToken, refreshToken, profile, done) => {
