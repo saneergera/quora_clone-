@@ -68,6 +68,11 @@ class Navbar extends React.Component {
                   My questions
                 </a>
               </li>
+              <li>
+                <a style={{ color: "#b93026" }}>
+                  {`Welcome ${this.value.data.data.Name}`}
+                </a>
+              </li>
 
               <li>
                 <a href="/api/log_out" style={{ color: "#b93026" }}>
