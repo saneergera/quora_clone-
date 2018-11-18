@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
+const sslRedirect = require("heroku-ssl-redirect");
 
 const keys = require("./config/keys.js");
 require("./services/facebookoauth.js")();
@@ -30,6 +31,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(sslRedirect());
 require("./routes/authentication.js")(app);
 require("./routes/quora.js")(app);
 if (process.env.NODE_ENV === "production") {
