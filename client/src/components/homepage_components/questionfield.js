@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../../style/questionfield.css";
+import TopicStore from "../../stores/Topicstore";
+import TopicActions from "../../actions/TopicActions";
 import Avatar from "@material-ui/core/Avatar";
 import ReactQuill from "react-quill";
 
@@ -8,13 +10,22 @@ class Questionfield extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-    console.log(props);
+
     this.setState({ color: "black" });
     this.state = {
       Upvotes: 0
     };
-    this.b = this.props.data.question.Topics.map(element => {
-      return <span class="label label-default">{element}</span>;
+    this.b = this.props.data.question.Topics.map((element, index) => {
+      return (
+        <span key={index} className="label label-default">
+          <a
+            style={{ textDecoration: "none", color: "white" }}
+            href={`/topics/${element}`}
+          >
+            {element}
+          </a>
+        </span>
+      );
     });
     if (this.props.data.answer.length === 0) {
       this.answer = "";
@@ -22,16 +33,13 @@ class Questionfield extends React.Component {
       this.d = "";
       this.by = "";
       this.pro = "";
-      console.log("oye nahi chal jaa");
     } else {
-      console.log("oye chal jaa");
-
       this.answer = this.props.data.answer[0].Answer;
       this.style = "";
       this.state.Upvotes = this.props.data.answer[0].Upvotes;
       this.Downvote = this.props.data.answer[0].Downvotes;
       this.by = this.props.data.answer[0].By;
-      this.pro = this.props.intro;
+      this.pro = this.props.data.answer[0].Intro;
 
       if (this.stateUpvote !== 0) {
         this.array = this.props.data.answer[0].UpvoteBy;
@@ -41,7 +49,7 @@ class Questionfield extends React.Component {
             <div id="upvoter" style={{ padding: "10px", color: "black" }}>
               <span>
                 {this.state.Upvotes} Upvotes
-                <i class="material-icons" style={{ color: "blue" }}>
+                <i className="material-icons" style={{ color: "blue" }}>
                   arrow_upward
                 </i>
               </span>
@@ -50,9 +58,13 @@ class Questionfield extends React.Component {
         } else {
           this.state.d = (
             <div id="upvoter" style={{ padding: "10px", color: "black" }}>
-              <span onClick={this.upvote}>
+              <span
+                onClick={() => {
+                  this.upvote(this.props.data.answer[0]._id);
+                }}
+              >
                 {this.state.Upvotes} Upvotes
-                <i class="material-icons">arrow_upward</i>
+                <i className="material-icons">arrow_upward</i>
               </span>
             </div>
           );
@@ -60,9 +72,13 @@ class Questionfield extends React.Component {
       } else {
         this.state.d = (
           <div id="upvoter" style={{ padding: "10px", color: "black" }}>
-            <span onClick={this.upvote}>
+            <span
+              onClick={() => {
+                this.upvote(this.props.data.answer[0]._id);
+              }}
+            >
               {this.state.Upvotes} Upvotes
-              <i class="material-icons">arrow_upward</i>
+              <i className="material-icons">arrow_upward</i>
             </span>
           </div>
         );
@@ -70,19 +86,20 @@ class Questionfield extends React.Component {
     }
   }
 
-  upvote = () => {
+  upvote = a => {
+    TopicActions.updateFetch(a);
     var num = this.state.Upvotes;
-    console.log(num);
+
     num++;
     this.setState({
       Upvotes: num
     });
-    console.log(this.state.Upvotes);
+
     this.state.d = (
       <div id="upvoter" style={{ padding: "10px", color: "black" }}>
         <span>
           {num} Upvotes
-          <i class="material-icons" style={{ color: "blue" }}>
+          <i className="material-icons" style={{ color: "blue" }}>
             arrow_upward
           </i>
         </span>
@@ -90,10 +107,8 @@ class Questionfield extends React.Component {
     );
   };
   componentDidMount() {
-    console.log("pehle mein");
-    console.log("chal jaa");
     var element = document.querySelectorAll(".ql-toolbar.ql-snow");
-    console.log(element);
+
     element.forEach(ele => {
       ele.classList.add("dandi");
     });
@@ -110,23 +125,22 @@ class Questionfield extends React.Component {
     });
 
     this.ele = document.querySelectorAll("#upvoter");
-    console.log(this.ele);
+
     const ele4 = document.querySelectorAll("#questionlink");
-    console.log("kyon");
   }
 
   render() {
     ////////////////////////////////////////////////////////////////////////////////////////
 
     return (
-      <div class="row" style={{ width: "50%", marginLeft: "30%" }}>
-        <div class="col s12 m6">
-          <div class="card ">
+      <div className="row" style={{ width: "50%", marginLeft: "30%" }}>
+        <div className="col s12 m6">
+          <div className="card ">
             {this.b}
-            <div class="card-content ">
-              <span class="card-title" style={{ color: "black" }}>
+            <div className="card-content ">
+              <span className="card-title" style={{ color: "black" }}>
                 <a
-                  href={`question/${this.props.data.question._id}`}
+                  href={`/question/${this.props.data.question._id}`}
                   style={{
                     textDecoration: "none",
                     color: "black",
@@ -162,7 +176,7 @@ class Questionfield extends React.Component {
               </div>
 
               <ReactQuill
-                readOnly="true"
+                readOnly={true}
                 value={this.answer}
                 style={{ display: this.style, height: "300px" }}
               />

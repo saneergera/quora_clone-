@@ -9,7 +9,7 @@ import "../style/hideShow.css";
 class QuestionAnswer extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
     this.id = this.props.topicname.id;
 
     this.state = TopicStore.getState();
@@ -67,7 +67,10 @@ class QuestionAnswer extends React.Component {
   }
 
   data = () => {
-    console.log(this.state.text);
+    var element = document.getElementById("answer_box");
+
+    element.classList.toggle("hideShow");
+    this.setState({ text: "" });
     TopicActions.answerQuestion(this.id, this.state.text);
     TopicActions.fetchQuestion(this.id);
   };
@@ -76,11 +79,20 @@ class QuestionAnswer extends React.Component {
     TopicActions.updateFetch(a);
     TopicActions.fetchQuestion(this.id);
   };
+
+  Hideshow = () => {
+    var element = document.getElementById("answer_box");
+
+    element.classList.toggle("hideShow");
+  };
   render() {
     if (this.state.singlefeed === null) {
       return <div className="loader" />;
     } else {
-      if (this.state.singlefeed.answer.length !== 0) {
+      if (
+        this.state.singlefeed.answer !== undefined &&
+        this.state.singlefeed.answer.length !== 0
+      ) {
         this.final = this.state.singlefeed.answer.map((element, index) => {
           if (element.UpvoteBy.indexOf(this.state.data.data._id) !== -1) {
             this.d = (
@@ -162,7 +174,7 @@ class QuestionAnswer extends React.Component {
           );
         });
       }
-      console.log(this.final);
+
       return (
         <div>
           <div
@@ -170,7 +182,7 @@ class QuestionAnswer extends React.Component {
             style={{
               width: "50%",
               marginLeft: "30%",
-              background: "white",
+
               color: "black"
             }}
           >
@@ -186,8 +198,9 @@ class QuestionAnswer extends React.Component {
                     </span>
                   </div>
                   <div class="card-action">
-                    <a href="#">Answer</a>
-                    <a href="#">Follow</a>
+                    <a style={{ cursor: "pointer" }} onClick={this.Hideshow}>
+                      Answer
+                    </a>
                   </div>
                 </div>
               </div>
@@ -195,14 +208,14 @@ class QuestionAnswer extends React.Component {
           </div>
 
           <div
-            className="hideShow"
+            id="answer_box"
+            className="answer_box"
             style={{
-              width: "50%",
-              marginLeft: "30%",
+              width: "48%",
+              marginLeft: "31%",
               background: "white",
               marginTop: "1%",
-              height: "inherit",
-              border: "1px solid black"
+              height: "inherit"
             }}
           >
             <ReactQuill
@@ -210,14 +223,21 @@ class QuestionAnswer extends React.Component {
               onChange={this.handleChange}
               modules={this.modules}
               formats={this.formats}
+              value={this.state.text}
             />
-            <div>
+            <div
+              style={{
+                height: "39px",
+
+                border: "1px solid #ccc"
+              }}
+            >
               <button
                 class="btn waves-effect waves-light "
                 type="submit"
                 name="action"
                 onClick={this.data}
-                style={{ float: "right" }}
+                style={{ float: "right", backgroundColor: "#aa4034" }}
               >
                 Submit
                 <i class="material-icons right">send</i>

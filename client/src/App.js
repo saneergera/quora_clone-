@@ -12,11 +12,15 @@ import Sidebar from "./components/homepage_components/drawer";
 import Form from "./components/new_login";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import Topic from "./components/viewtopic";
+import Myquestion from "./components/myquestion";
 import QuestionAnswer from "./components/qa";
 const Indexx = () => <Componentss />;
 const Topics = ({ match }) => <Topic topicname={match.params} />;
 const Question = ({ match }) => {
   return <QuestionAnswer topicname={match.params} />;
+};
+const MyQuestion = () => {
+  return <Myquestion />;
 };
 
 class App extends Component {
@@ -53,6 +57,7 @@ class App extends Component {
               <Route exact path="/about" component={this.About} />
               <Route exact path="/topics/:topic" component={Topics} />
               <Route exact path="/question/:id" component={Question} />
+              <Route exact path="/myquestion" component={MyQuestion} />
             </div>
           </BrowserRouter>
         );
@@ -66,7 +71,11 @@ class App extends Component {
         );
       }
     } else {
-      return <h1>Loading</h1>;
+      return (
+        <div style={{ textAlign: "center" }}>
+          <img src="../spinner.gif" />
+        </div>
+      );
     }
   }
 }

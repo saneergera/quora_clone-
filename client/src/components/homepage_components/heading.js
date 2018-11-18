@@ -7,7 +7,6 @@ class Heading extends React.Component {
   constructor(props) {
     super(props);
     this.data = props.data.data.data;
-    console.log(this.data);
   }
 
   render() {

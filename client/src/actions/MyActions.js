@@ -19,6 +19,7 @@ class LocationActions {
     };
   }
   updateData(bio, topics) {
+    console.log("hello");
     return dispatch => {
       // we dispatch an event here so we can have "loading" state.
 
@@ -30,6 +31,7 @@ class LocationActions {
           }
         })
         .then(function(response) {
+          console.log(response);
           topics.forEach(element => {
             axios
               .post("/api/follower", {
@@ -38,8 +40,10 @@ class LocationActions {
                 }
               })
               .then(function(response) {
+                console.log("mein bhi hoon");
                 console.log(response);
                 dispatch("done");
+                window.location.reload();
               })
               .catch(function(error) {
                 console.log(error);

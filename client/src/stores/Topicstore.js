@@ -8,7 +8,10 @@ class TopicStore {
       loader: false,
       feed: null,
       singlefeed: null,
-      answerUpdated: false
+      answerUpdated: false,
+      topic: null,
+      list: null,
+      myquestion: null
     };
 
     this.bindListeners({
@@ -18,21 +21,24 @@ class TopicStore {
       fetchFeed: TopicActions.FETCH_FEED,
       fetchSingleFeed: TopicActions.FETCH_QUESTION,
       answerQuestion: TopicActions.ANSWER_QUESTION,
-      updateFetch: TopicActions.UPDATE_FETCH
+      updateFetch: TopicActions.UPDATE_FETCH,
+      fetchTopicquestion: TopicActions.FETCH_TOPICQUESTION,
+      getMaillist: TopicActions.GET_MAILLIST,
+      fetchMyquestion: TopicActions.FETCH_MYQUESTION
     });
   }
 
   fetchLocations(data) {
     this.state.data = data;
   }
-
+  getMaillist(data) {
+    this.state.list = data;
+  }
   handleUpdateLocations(data) {
     this.state.data = data;
   }
 
-  handleAskQuestion(data) {
-    console.log("done");
-  }
+  handleAskQuestion(data) {}
 
   fetchFeed(data) {
     this.state.feed = data;
@@ -45,6 +51,12 @@ class TopicStore {
   }
   updateFetch() {
     this.state.upvote = true;
+  }
+  fetchTopicquestion(data) {
+    this.state.topic = data;
+  }
+  fetchMyquestion(data) {
+    this.state.myquestion = data;
   }
 }
 

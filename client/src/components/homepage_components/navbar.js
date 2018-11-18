@@ -1,17 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../../style/navbar.css";
+
 import Sidebar from "./navbar";
 class Navbar extends React.Component {
-  counter = 0;
   constructor(props) {
     super(props);
-
+    this.state = { counter: "" };
     this.value = props.information;
 
     this.value.data.data.Notifications.map(element => {
       if (element.Read === false) {
-        this.counter++;
+        this.state.counter++;
       }
     });
   }
@@ -26,12 +26,12 @@ class Navbar extends React.Component {
     document.getElementById("dropdown1").classList.toggle("hidden");
 
     document.getElementById("badge").classList.add("hidden");
-    this.counter = "";
+    this.state.counter = "";
   };
   render() {
-    const a = this.value.data.data.Notifications.map(element => {
+    const a = this.value.data.data.Notifications.map((element, index) => {
       return (
-        <li>
+        <li key={index}>
           <a
             onClick={event => {
               this.addHref(event, element);
@@ -43,13 +43,13 @@ class Navbar extends React.Component {
       );
     });
     return (
-      <div class="navbar-fixed">
+      <div className="navbar-fixed">
         <nav style={{ backgroundColor: "white" }}>
-          <div class="nav-wrapper container">
-            <a href="#!" class="brand-logo" style={{ color: "#b93026" }}>
+          <div className="nav-wrapper container">
+            <a className="brand-logo" style={{ color: "#b93026" }}>
               Quora
             </a>
-            <ul class="right hide-on-med-and-down ">
+            <ul className="right hide-on-med-and-down ">
               <li>
                 <a href="/" style={{ color: "#b93026" }}>
                   Feed
@@ -58,24 +58,24 @@ class Navbar extends React.Component {
               <li>
                 <a style={{ color: "#b93026" }} onClick={this.Toggle}>
                   Notifications
-                  <span id="badge" class="new badge">
-                    {this.counter}
+                  <span id="badge" className="new badge">
+                    {this.state.counter}
                   </span>
+                </a>
+              </li>
+              <li>
+                <a href="/myquestion" style={{ color: "#b93026" }}>
+                  My questions
                 </a>
               </li>
 
               <li>
-                <a href="badges.html" style={{ color: "#b93026" }}>
-                  Answers
-                </a>
-              </li>
-              <li>
-                <a href="api/log_out" style={{ color: "#b93026" }}>
+                <a href="/api/log_out" style={{ color: "#b93026" }}>
                   Logout
                 </a>
               </li>
             </ul>
-            <ul id="dropdown1" class="dropdown-content hidden">
+            <ul id="dropdown1" className="dropdown-content hidden">
               {a}
             </ul>
           </div>

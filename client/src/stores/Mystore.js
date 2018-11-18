@@ -25,9 +25,7 @@ class LocationStore {
     this.locations = ["hello", "bye"];
     this.errorMessage = null;
   }
-  updateLocations(done) {
-    console.log(done);
-  }
+  updateLocations(done) {}
   handleupdateData(data) {
     this.data.push(data);
   }

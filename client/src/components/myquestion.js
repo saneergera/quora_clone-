@@ -4,11 +4,11 @@ import TopicStore from "../stores/Topicstore";
 import TopicActions from "../actions/TopicActions";
 import Questionfield from "./homepage_components/questionfield";
 
-class Topic extends React.Component {
+class Myquestion extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.topicname.topic);
-    TopicActions.fetchTopicquestion(props.topicname.topic);
+
+    TopicActions.fetchMyquestion();
     this.state = TopicStore.getState();
   }
 
@@ -23,16 +23,19 @@ class Topic extends React.Component {
     this.setState(state);
   };
   render() {
-    if (this.state.topic !== null && this.state.topic.length > 0) {
-      const a = this.state.topic.map((element, index) => {
+    if (this.state.myquestion !== null && this.state.myquestion.length > 0) {
+      const a = this.state.myquestion.map((element, index) => {
         return <Questionfield data={element} key={index} />;
       });
       return a;
-    } else if (this.state.topic !== null && this.state.topic.length == 0) {
+    } else if (
+      this.state.myquestion !== null &&
+      this.state.myquestion.length == 0
+    ) {
       return (
         <div>
           <div class="container">
-            <h1>{"No questions on this topic"} </h1>
+            <h1>{"You Dont have any question"} </h1>
             <a href="/">Add Question</a>
           </div>
         </div>
@@ -43,4 +46,4 @@ class Topic extends React.Component {
   }
 }
 
-export default Topic;
+export default Myquestion;

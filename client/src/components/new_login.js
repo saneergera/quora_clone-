@@ -15,6 +15,7 @@ class Form extends React.Component {
     this.data = props.commonProps.data;
 
     this.state = LocationStore.getState();
+    this.bio = "I Love Quora";
   }
 
   componentWillMount() {
@@ -38,7 +39,6 @@ class Form extends React.Component {
   };
   updateuser = () => {
     LocationActions.updateData(this.bio, this.topics);
-    window.location.reload();
   };
   render() {
     if (this.state.topics === null) {

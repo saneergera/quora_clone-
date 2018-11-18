@@ -15,9 +15,25 @@ function titleCase(str) {
 }
 
 module.exports = app => {
+  app.get("/api/getUsers", async (req, res) => {
+    var arr = [];
+    const users = await User.find({});
+    users.forEach(element => {
+      var obj1 = new Object();
+      obj1.name = element.Name;
+      obj1.id = element._id;
+
+      if (obj1.id.toString() !== req.user._id.toString()) {
+        arr.push(obj1);
+      }
+    });
+    res.send(arr);
+  });
+
   app.post("/api/topicdetails", async (req, res) => {
+    console.log(req.body.params);
     const data = [];
-    const topics = await Topics.findOne({ Name: req.body.name });
+    const topics = await Topics.findOne({ Name: req.body.params.topic });
 
     for (const item of topics.Question) {
       const obj = new Object();
@@ -26,22 +42,22 @@ module.exports = app => {
       });
 
       obj.question = a;
-      const answers = [];
+      const answer = [];
       for (const item of a.Answer) {
         const b = await Answers.findOne({
           _id: item
         });
         stringify(b);
-        if (answers.length === 0) {
-          answers.push(b);
+        if (answer.length === 0) {
+          answer.push(b);
         } else {
-          if (answers[0].length < b.length) {
-            answers[0] = b;
+          if (answer[0].Answer.length < b.Answer.length) {
+            answer[0] = b;
           }
         }
       }
 
-      obj.answers = answers;
+      obj.answer = answer;
 
       data.push(obj);
     }
@@ -65,8 +81,11 @@ module.exports = app => {
         }
       }
     );
+
+    res.send("done");
   });
   app.post("/api/newuser", async (req, res) => {
+    console.log(req.body.params.bio);
     const update = await User.findOneAndUpdate(
       {
         _id: req.user._id
@@ -92,13 +111,13 @@ module.exports = app => {
         }
       );
     });
-    res.redirect("/");
+    res.send("done");
   });
   app.post("/api/answer", async (req, res) => {
     const questionid = req.body.params.id;
     const answer = await new Answers({
       Question: questionid,
-      By: req.user._id,
+      By: req.user.Name,
       Intro: req.user.Intro,
       Answer: req.body.params.ans,
       Upvotes: 0,
@@ -114,19 +133,22 @@ module.exports = app => {
 
   app.post("/api/newquestion", async (req, res) => {
     const a = [req.user._id];
+    console.log(req.body.params.topics);
 
     const question = await new Questions({
       Question: req.body.params.question,
       By: req.user._id,
       Followers: [req.user._id],
-      Topics: req.body.params.topics.forEach(ele => {
-        ele
+      Topics: req.body.params.topics.map(ele => {
+        return ele
           .toLowerCase()
           .split(" ")
           .map(s => s.charAt(0).toUpperCase() + s.substring(1))
           .join(" ");
       })
     }).save();
+
+    console.log(question);
 
     if (req.body.params.topics !== undefined) {
       for (const item of req.body.params.topics) {
@@ -144,7 +166,8 @@ module.exports = app => {
               .toLowerCase()
               .split(" ")
               .map(s => s.charAt(0).toUpperCase() + s.substring(1))
-              .join(" ")
+              .join(" "),
+            Question: [question._id]
           }).save();
         } else {
           await entery.update({
@@ -173,7 +196,7 @@ module.exports = app => {
       }
     }
 
-    res.send("done");
+    res.send(question);
   });
 
   app.post("/api/comment", async (req, res) => {
@@ -248,11 +271,18 @@ module.exports = app => {
       const answers = item.Answer;
       book[ques] = item;
       for (const item2 of answers) {
-        const ans = await Answers.find({ _id: item2 });
+        const ans = await Answers.findOne({ _id: item2 });
 
-        final.push(ans[0]);
+        if (final.length === 0) {
+          final.push(ans);
+        } else {
+          if (ans.Answer.length > final[0].Answer.length) {
+            final[0] = ans;
+          }
+        }
       }
       book[answer] = final;
+      console.log(final);
 
       var q = {
         question: book[ques],
@@ -261,6 +291,47 @@ module.exports = app => {
       final1.push(q);
       i++;
       j++;
+    }
+
+    console.log(final1);
+    res.send(final1);
+  });
+  app.get("/api/myquestion", async (req, res) => {
+    var book = new Object();
+    const question = await Questions.find({ By: req.user._id });
+
+    var final1 = [];
+    var i = 0;
+    var j = 100;
+    if (question) {
+      for (const item of question) {
+        const final = [];
+        var ques = `question${i}`;
+        var answer = `answer${i}`;
+        const answers = item.Answer;
+        book[ques] = item;
+        for (const item2 of answers) {
+          const ans = await Answers.findOne({ _id: item2 });
+
+          if (final.length === 0) {
+            final.push(ans);
+          } else {
+            if (ans.Answer.length > final[0].Answer.length) {
+              final[0] = ans;
+            }
+          }
+        }
+        book[answer] = final;
+        console.log(final);
+
+        var q = {
+          question: book[ques],
+          answer: book[answer]
+        };
+        final1.push(q);
+        i++;
+        j++;
+      }
     }
 
     res.send(final1);
@@ -273,7 +344,7 @@ module.exports = app => {
       res.send("Aready a topic");
     } else {
       const topic = await new Topics({
-        Name: nametext
+        Name: name
           .toLowerCase()
           .split(" ")
           .map(s => s.charAt(0).toUpperCase() + s.substring(1))

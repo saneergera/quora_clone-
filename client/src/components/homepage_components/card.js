@@ -6,23 +6,13 @@ import TopicActions from "../../actions/TopicActions";
 class SimpleCard extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = TopicStore.getState();
 
     this.notification = [];
 
-    this.users = [
-      {
-        id: "5be5ba16d192b69a01a6f814",
-        Name: "The Indo Canadian Dream"
-      },
-      {
-        id: "5be52eea9328dc8d4ef4d729",
-        Name: "Saneer Gera"
-      }
-    ];
+    TopicActions.getMaillist();
 
-    this.sendMessage = (e, msg) => {
+    this.users = this.sendMessage = (e, msg) => {
       e.preventDefault();
       document.getElementById(msg).innerHTML = "Sent";
       document.getElementById(msg).parentElement.removeAttribute("href");
@@ -33,6 +23,8 @@ class SimpleCard extends React.Component {
       });
     };
   }
+
+  data = "";
 
   componentDidMount() {
     TopicStore.listen(this.onChange);
@@ -77,11 +69,10 @@ class SimpleCard extends React.Component {
     }
   };
   updateData = () => {
-    const card = `<a class="waves-effect waves-light btn-small">${
-      this.state.data
-    }</a>`;
-
-    if (this.state.data !== "") {
+    if (this.state.data !== null) {
+      const card = `<a className="waves-effect waves-light btn-small">${
+        this.state.data
+      }</a>`;
       const div = document.getElementById("topics");
 
       div.innerHTML += card;
@@ -107,44 +98,41 @@ class SimpleCard extends React.Component {
     document.getElementById("modal2").className += "nothidden";
     document.getElementById("next").classList.remove = "nothidden";
   };
-
-  diaplayData = () => {
-    const data = this.users.map(element => {
-      return (
-        <li class="collection-item">
-          <div>
-            {element.Name}
-            <a
-              href=""
-              class="secondary-content "
-              onClick={event => {
-                this.sendMessage(event, element.id);
-              }}
-            >
-              <i class="material-icons " id={element.id}>
-                send
-              </i>
-            </a>
-          </div>
-        </li>
-      );
-    });
-
-    return data;
+  sHide = () => {
+    document.getElementById("modal1").className += "nothidden";
   };
-
   render() {
+    if (this.state.list !== null) {
+      this.data = this.state.list.map((element, index) => {
+        return (
+          <li key={index} className="collection-item">
+            <div>
+              {element.name}
+              <a
+                href=""
+                className="secondary-content "
+                onClick={event => {
+                  this.sendMessage(event, element.id);
+                }}
+              >
+                <i id={element.id}>send</i>
+              </a>
+            </div>
+          </li>
+        );
+      });
+    }
     return (
       <div>
         <div
-          class="row"
+          className="row"
           style={{ width: "50%", marginLeft: "30%" }}
           onClick={this.openQuestion}
         >
-          <div class="col s12 m6">
-            <div class="card ">
-              <div class="card-content white-text">
-                <span class="card-title" style={{ color: "black" }}>
+          <div className="col s12 m6">
+            <div className="card ">
+              <div className="card-content white-text">
+                <span className="card-title" style={{ color: "black" }}>
                   Ask a question
                 </span>
                 <p style={{ color: "black" }}>What is your question?</p>
@@ -153,27 +141,38 @@ class SimpleCard extends React.Component {
           </div>
         </div>
 
-        <div id="modal1" class="modal modal-fixed-footer ">
-          <div class="modal-content">
+        <div id="modal1" className="modal modal-fixed-footer ">
+          <div className="modal-content">
+            <span
+              style={{
+                fontSize: "26px",
+                marginLeft: "95%",
+                color: "red",
+                cursor: "pointer"
+              }}
+              onClick={this.sHide}
+            >
+              X
+            </span>
             <div>
-              <div class="input-field col s6">
+              <div className="input-field col s6">
                 <input
                   id="first_name"
                   type="text"
-                  class="validate"
+                  className="validate"
                   onChange={this.handleInput.bind(this)}
                 />
                 <span id="error" />
                 <label for="first_name">Ask a question</label>
               </div>
               <div
-                class="input-field col s3"
+                className="input-field col s3"
                 style={{ width: "30%", display: "inline-block" }}
               >
                 <input
                   id="topic"
                   type="text"
-                  class="validate"
+                  className="validate"
                   onChange={this.handleChange.bind(this)}
                 />
 
@@ -185,11 +184,11 @@ class SimpleCard extends React.Component {
             </div>
             <div id="topics" />
           </div>
-          <div class="modal-footer">
+          <div className="modal-footer">
             <a
               href="#!"
               id="next"
-              class="modal-close waves-effect waves-green btn-flat disabled"
+              className="modal-close waves-effect waves-green btn-flat disabled"
               onClick={this.showHide}
             >
               Next
@@ -197,18 +196,18 @@ class SimpleCard extends React.Component {
           </div>
         </div>
 
-        <div id="modal2" class="modal modal-fixed-footer ">
-          <div class="modal-content" />
-          <ul class="collection with-header">
-            <li class="collection-header">
+        <div id="modal2" className="modal modal-fixed-footer ">
+          <div className="modal-content" />
+          <ul className="collection with-header">
+            <li className="collection-header">
               <h4>Ask people to answer the question</h4>
             </li>
-            {this.diaplayData()}
-            <li class="collection-item">
+            {this.data}
+            <li className="collection-item">
               <a
                 href="#!"
                 id="next"
-                class="modal-close waves-effect waves-green btn-flat right "
+                className="modal-close waves-effect waves-green btn-flat right "
                 onClick={this.submitAnswer}
               >
                 Submit

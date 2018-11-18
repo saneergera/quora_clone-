@@ -20,7 +20,30 @@ class TopicActions {
 
   fetchTopicquestion(topic) {
     return dispatch => {
-      axios.get;
+      axios
+        .post("/api/topicdetails", {
+          params: {
+            topic: topic
+          }
+        })
+        .then(function(response) {
+          dispatch(response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    };
+  }
+  fetchMyquestion() {
+    return dispatch => {
+      axios
+        .get("/api/myquestion")
+        .then(function(response) {
+          dispatch(response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     };
   }
   updateFetch(id) {
@@ -51,7 +74,7 @@ class TopicActions {
           }
         })
         .then(response => {
-          dispatch(response.data);
+          this.fetchQuestion(id);
         })
         .catch(error => {
           console.log(error);
@@ -96,7 +119,24 @@ class TopicActions {
     };
   }
 
+  getMaillist() {
+    return dispatch => {
+      axios
+        .get("/api/getUsers")
+        .then(response => {
+          console.log("abc");
+          console.log(response.data);
+          dispatch(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+  }
+
   askQuestion(question, ask, topics) {
+    console.log(ask);
+    console.log(topics);
     return dispatch => {
       axios
         .post("/api/newquestion", {
@@ -107,8 +147,10 @@ class TopicActions {
           }
         })
         .then(function(response) {
+          console.log(response.data);
           dispatch(response.data);
-          window.location.assign("/about");
+
+          window.location.assign("/");
         })
         .catch(function(error) {
           console.log(error);

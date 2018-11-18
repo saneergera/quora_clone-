@@ -28,12 +28,11 @@ class Home extends React.Component {
     this.setState(state);
   };
   render() {
-    console.log(this.state);
-
     if (this.state.feed !== null) {
-      const a = this.state.feed.map(element => {
+      const a = this.state.feed.map((element, index) => {
         return (
           <Questionfield
+            key={index}
             data={element}
             intro={this.topics.Intro.toUpperCase()}
             id={this.topics._id}

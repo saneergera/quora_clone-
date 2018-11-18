@@ -19,6 +19,7 @@ class Sidebar extends React.Component {
     const list = this.topics.map((element, index) => {
       return (
         <div
+          key={index}
           style={{ display: "flex", marginBottom: "10px", cursor: "pointer" }}
         >
           <Avatar style={{ height: "30px", width: "30px" }}>
@@ -32,14 +33,13 @@ class Sidebar extends React.Component {
               this.handleClick(event, element);
             }}
           >
-            <i class="fa fa-fw fa-home" /> {element}
+            <i className="fa fa-fw fa-home" /> {element}
           </a>
         </div>
       );
     });
 
-    console.log(list);
-    return <div class="sidebar">{list}</div>;
+    return <div className="sidebar">{list}</div>;
   }
 }
 

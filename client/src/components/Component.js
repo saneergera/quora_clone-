@@ -32,8 +32,6 @@ class Componentss extends React.Component {
   }
 
   render() {
-    console.log(this.state.data);
-
     return <h1>0</h1>;
   }
 }
