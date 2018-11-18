@@ -39,7 +39,12 @@ class Sidebar extends React.Component {
       );
     });
 
-    return <div className="sidebar">{list}</div>;
+    return (
+      <div className="sidebar">
+        <h1 style={{ fontSize: "14px" }}>Topics You Follow </h1>
+        {list}
+      </div>
+    );
   }
 }
 
