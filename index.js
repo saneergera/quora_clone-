@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
-const sslRedirect = require("heroku-ssl-redirect");
+var sslRedirect = require("heroku-ssl-redirect");
 
 const keys = require("./config/keys.js");
 require("./services/facebookoauth.js")();
