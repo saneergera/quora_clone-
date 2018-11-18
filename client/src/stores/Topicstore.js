@@ -14,10 +14,16 @@ class TopicStore {
     this.bindListeners({
       handleUpdateLocations: TopicActions.UPDATE_LOCATIONS,
       handleAskQuestion: TopicActions.ASK_QUESTION,
+      fetchLocations: TopicActions.FETCH_DATA,
       fetchFeed: TopicActions.FETCH_FEED,
       fetchSingleFeed: TopicActions.FETCH_QUESTION,
-      answerQuestion: TopicActions.ANSWER_QUESTION
+      answerQuestion: TopicActions.ANSWER_QUESTION,
+      updateFetch: TopicActions.UPDATE_FETCH
     });
+  }
+
+  fetchLocations(data) {
+    this.state.data = data;
   }
 
   handleUpdateLocations(data) {
@@ -36,6 +42,9 @@ class TopicStore {
   }
   answerQuestion() {
     this.state.answerUpdated = true;
+  }
+  updateFetch() {
+    this.state.upvote = true;
   }
 }
 

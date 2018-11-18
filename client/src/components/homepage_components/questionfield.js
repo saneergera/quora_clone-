@@ -90,18 +90,28 @@ class Questionfield extends React.Component {
     );
   };
   componentDidMount() {
-    var element = document.querySelector(".ql-toolbar.ql-snow");
-    element.classList.add("dandi");
-    var element2 = document.querySelector(
+    console.log("pehle mein");
+    console.log("chal jaa");
+    var element = document.querySelectorAll(".ql-toolbar.ql-snow");
+    console.log(element);
+    element.forEach(ele => {
+      ele.classList.add("dandi");
+    });
+    var element2 = document.querySelectorAll(
       ".ql-toolbar.ql-snow + .ql-container.ql-snow"
     );
-    element2.classList.add("dandi2");
-    var element3 = document.querySelector(".ql-container.ql-snow");
-    element3.classList.add("dandi3");
+    element2.forEach(ele => {
+      ele.classList.add("dandi2");
+    });
 
-    this.ele = document.querySelector("#upvoter");
+    var element3 = document.querySelectorAll(".ql-container.ql-snow");
+    element3.forEach(ele => {
+      ele.classList.add("dandi3");
+    });
+
+    this.ele = document.querySelectorAll("#upvoter");
     console.log(this.ele);
-    const ele4 = document.querySelector("#questionlink");
+    const ele4 = document.querySelectorAll("#questionlink");
     console.log("kyon");
   }
 
@@ -113,7 +123,7 @@ class Questionfield extends React.Component {
         <div class="col s12 m6">
           <div class="card ">
             {this.b}
-            <div class="card-content white-text">
+            <div class="card-content ">
               <span class="card-title" style={{ color: "black" }}>
                 <a
                   href={`question/${this.props.data.question._id}`}

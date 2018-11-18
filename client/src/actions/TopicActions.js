@@ -2,6 +2,45 @@ import axios from "axios";
 var alt = require("../alt");
 
 class TopicActions {
+  fetchData() {
+    return dispatch => {
+      // we dispatch an event here so we can have "loading" state.
+
+      axios
+        .get("/api/current_user")
+        .then(function(response) {
+          dispatch(response);
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    };
+  }
+
+  fetchTopicquestion(topic) {
+    return dispatch => {
+      axios.get;
+    };
+  }
+  updateFetch(id) {
+    console.log(id);
+    return dispatch => {
+      axios
+        .post("/api/upvote", {
+          params: {
+            id: id
+          }
+        })
+        .then(response => {
+          dispatch(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+  }
+
   answerQuestion(id, ans) {
     return dispatch => {
       axios

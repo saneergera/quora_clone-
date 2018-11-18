@@ -9,11 +9,13 @@ import "../style/hideShow.css";
 class QuestionAnswer extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.id = this.props.topicname.id;
 
     this.state = TopicStore.getState();
     this.setState({ text: "" }); // You can also pass a Quill Delta here
     this.handleChange = this.handleChange.bind(this);
+    TopicActions.fetchData();
     TopicActions.fetchQuestion(this.id);
   }
 
@@ -62,7 +64,6 @@ class QuestionAnswer extends React.Component {
 
   handleChange(value) {
     this.setState({ text: value.replace(/"/g, "'") });
-    console.log(this.state.text);
   }
 
   data = () => {
@@ -71,15 +72,46 @@ class QuestionAnswer extends React.Component {
     TopicActions.fetchQuestion(this.id);
   };
 
+  upvote = a => {
+    TopicActions.updateFetch(a);
+    TopicActions.fetchQuestion(this.id);
+  };
   render() {
-    console.log("//////////////////////////");
-    console.log(this.state);
-
     if (this.state.singlefeed === null) {
       return <div className="loader" />;
     } else {
       if (this.state.singlefeed.answer.length !== 0) {
         this.final = this.state.singlefeed.answer.map((element, index) => {
+          if (element.UpvoteBy.indexOf(this.state.data.data._id) !== -1) {
+            this.d = (
+              <div class="card" style={{ textAlign: "center" }}>
+                <div id="upvoter" style={{ padding: "10px", color: "black" }}>
+                  <span style={{ cursor: "pointer" }}>
+                    {element.Upvotes} Upvotes
+                    <i class="material-icons" style={{ color: "blue" }}>
+                      arrow_upward
+                    </i>
+                  </span>
+                </div>
+              </div>
+            );
+          } else {
+            this.d = (
+              <div class="card" style={{ textAlign: "center" }}>
+                <div id="upvoter" style={{ padding: "10px", color: "black" }}>
+                  <span
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      this.upvote(element._id);
+                    }}
+                  >
+                    {element.Upvotes} Upvotes
+                    <i class="material-icons">arrow_upward</i>
+                  </span>
+                </div>
+              </div>
+            );
+          }
           return (
             <div key={index}>
               <div
@@ -123,6 +155,7 @@ class QuestionAnswer extends React.Component {
                       />
                     </div>
                   </div>
+                  {this.d}
                 </div>
               </div>
             </div>
@@ -173,7 +206,6 @@ class QuestionAnswer extends React.Component {
             }}
           >
             <ReactQuill
-              value={this.state.text}
               className=""
               onChange={this.handleChange}
               modules={this.modules}
