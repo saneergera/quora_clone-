@@ -53,8 +53,8 @@ module.exports = () => {
     new googleAuth(
       {
         clientID:
-          "301124289292-ehq3rubdqclamlao3fpck0182dkph4i0.apps.googleusercontent.com",
-        clientSecret: "442sDx-aZn-lLKC_ZOlnCP9z",
+          "132106563028-cn52r9m77ungo2vj3bbipq3nck3uov6m.apps.googleusercontent.com",
+        clientSecret: "fNQLv4TwBWV1AT_MRmwM5YsP",
         callbackURL: "/auth/google/callback"
       },
       async (accessToken, refreshToken, profile, done) => {
